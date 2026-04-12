@@ -714,6 +714,16 @@ async function runCommand(command, args, cwd, raw, defaultValue) {
           }
         }
         phase.cmdPhaseAdd(cwd, descArgs.join(' '), raw, customId);
+      } else if (subcommand === 'add-batch') {
+        // Accepts JSON array of descriptions via --descriptions '[...]' or positional args
+        const descFlagIdx = args.indexOf('--descriptions');
+        let descriptions;
+        if (descFlagIdx !== -1 && args[descFlagIdx + 1]) {
+          try { descriptions = JSON.parse(args[descFlagIdx + 1]); } catch (e) { error('--descriptions must be a JSON array'); }
+        } else {
+          descriptions = args.slice(2).filter(a => a !== '--raw');
+        }
+        phase.cmdPhaseAddBatch(cwd, descriptions, raw);
       } else if (subcommand === 'insert') {
         phase.cmdPhaseInsert(cwd, args[2], args.slice(3).join(' '), raw);
       } else if (subcommand === 'remove') {
@@ -722,7 +732,7 @@ async function runCommand(command, args, cwd, raw, defaultValue) {
       } else if (subcommand === 'complete') {
         phase.cmdPhaseComplete(cwd, args[2], raw);
       } else {
-        error('Unknown phase subcommand. Available: next-decimal, add, insert, remove, complete');
+        error('Unknown phase subcommand. Available: next-decimal, add, add-batch, insert, remove, complete');
       }
       break;
     }
