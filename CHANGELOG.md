@@ -4,9 +4,9 @@ All notable changes to GSD will be documented in this file.
 
 Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## [Unreleased](https://github.com/gsd-build/get-shit-done/compare/v1.38.3...HEAD)
+## [Unreleased](https://github.com/gsd-build/get-shit-done/compare/v1.38.4...HEAD)
 
-## [1.38.3] - 2026-04-25
+## [1.38.4] - 2026-04-25
 
 ### Fixed
 - **SDK uses full installed agent/workflow prompts** — The SDK was bundling stripped-down copies of agent definitions (~17% of the real content), missing critical instructions like plan file naming conventions, scope reduction rules, and discovery protocols. The SDK now loads the complete installed agents at runtime and resolves `@`-file references instead of stripping them.
@@ -2402,8 +2402,8 @@ Technical implementation details for Phase 2 appear in the **Changed** section b
 - YOLO mode for autonomous execution
 - Interactive mode with checkpoints
 
-[Unreleased]: https://github.com/gsd-build/get-shit-done/compare/v1.38.2...HEAD
-[1.38.3]: https://github.com/gsd-build/get-shit-done/compare/v1.38.2...v1.38.3
+[Unreleased]: https://github.com/gsd-build/get-shit-done/compare/v1.38.4...HEAD
+[1.38.4]: https://github.com/gsd-build/get-shit-done/compare/v1.38.2...v1.38.4
 [1.38.2]: https://github.com/gsd-build/get-shit-done/compare/v1.37.1...v1.38.2
 [1.37.1]: https://github.com/gsd-build/get-shit-done/compare/v1.37.0...v1.37.1
 [1.37.0]: https://github.com/gsd-build/get-shit-done/compare/v1.36.0...v1.37.0
