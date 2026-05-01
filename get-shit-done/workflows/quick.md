@@ -218,16 +218,13 @@ else
       || true
   fi
 
-  # Always pin the new branch to origin/$DEFAULT_BRANCH so the start point is
+  # Pin the new branch to origin/$DEFAULT_BRANCH so the start point is
   # deterministic regardless of which branch we are currently on (#2916).
+  # On success HEAD is exactly at origin/$DEFAULT_BRANCH, so a post-creation
+  # merge-base / "ahead-of" guard would be unreachable — the explicit base
+  # argument here is the single source of correctness for #2916.
   git checkout -b "$branch_name" "origin/$DEFAULT_BRANCH" \
     || { echo "ERROR: Could not create '$branch_name' from origin/$DEFAULT_BRANCH (#2916)." >&2; exit 1; }
-
-  # Warn only on fresh creation when HEAD did NOT fork from origin/$DEFAULT_BRANCH — #2916.
-  # Skipped on resume because origin may have advanced legitimately since first creation.
-  if MB=$(git merge-base HEAD "origin/${DEFAULT_BRANCH}" 2>/dev/null) && DT=$(git rev-parse --verify --quiet "refs/remotes/origin/${DEFAULT_BRANCH}" 2>/dev/null) && [ "$MB" != "$DT" ]; then
-    echo "WARNING: Quick-task branch '$branch_name' does not fork from origin/${DEFAULT_BRANCH}; verify the base is intentional before continuing."
-  fi
 fi
 ```
 

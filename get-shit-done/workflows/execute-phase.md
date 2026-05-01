@@ -238,13 +238,11 @@ else
   else
     git switch --quiet "$DEFAULT_BRANCH" 2>/dev/null && git merge --ff-only --quiet "origin/$DEFAULT_BRANCH" 2>/dev/null || true
   fi
+  # Pinned base + fail-fast: on success HEAD is exactly at origin/$DEFAULT_BRANCH,
+  # so a post-creation merge-base or "ahead-of" guard would be unreachable. The
+  # explicit base argument here is the single source of correctness for #2916.
   git checkout -b "$BRANCH_NAME" "origin/$DEFAULT_BRANCH" \
     || { echo "ERROR: Could not create '$BRANCH_NAME' from origin/$DEFAULT_BRANCH (#2916)." >&2; exit 1; }
-  # Warn only on fresh creation when HEAD did NOT fork from origin/$DEFAULT_BRANCH — #2916.
-  # Skipped on resume because origin may have advanced legitimately since first creation.
-  if MB=$(git merge-base HEAD "origin/${DEFAULT_BRANCH}" 2>/dev/null) && DT=$(git rev-parse --verify --quiet "refs/remotes/origin/${DEFAULT_BRANCH}" 2>/dev/null) && [ "$MB" != "$DT" ]; then
-    echo "WARNING: Phase branch '$BRANCH_NAME' does not fork from origin/${DEFAULT_BRANCH}; verify the base is intentional."
-  fi
 fi
 ```
 
