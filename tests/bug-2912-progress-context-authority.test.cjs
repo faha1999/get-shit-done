@@ -98,6 +98,7 @@ describe('#2912: progress report step has explicit context-authority directive',
   test('context-authority directive names PROJECT.md, STATE.md, and ROADMAP.md as authoritative', () => {
     const workflow = fs.readFileSync(WORKFLOW_PATH, 'utf8');
     const reportStep = extractStep(workflow, 'report');
+    assert.ok(reportStep, 'report step must exist');
     const blockquotes = extractBlockquotes(reportStep);
     const authorityBlock = blockquotes.find((b) => /context\s+authority/i.test(b));
     assert.ok(authorityBlock, 'authority blockquote must exist');
@@ -127,6 +128,7 @@ describe('#2912: progress report step has explicit context-authority directive',
   test('context-authority directive forbids using CLAUDE.md project block as a source', () => {
     const workflow = fs.readFileSync(WORKFLOW_PATH, 'utf8');
     const reportStep = extractStep(workflow, 'report');
+    assert.ok(reportStep, 'report step must exist');
     const blockquotes = extractBlockquotes(reportStep);
     const authorityBlock = blockquotes.find((b) => /context\s+authority/i.test(b));
     assert.ok(authorityBlock, 'authority blockquote must exist');
